@@ -1,7 +1,15 @@
 {
-  "name": "Imersão em desenvolvimento de APIs com Node.js",
+  "name": "immersion",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
-  "type": "module"
+  "type": "module",
+  "dependencies": {
+    "pg": "^8.3.0",
+    "pg-hstore": "^2.3.3",
+    "sequelize": "^6.3.3"
+  },
+  "devDependencies": {
+    "mocha": "^8.1.0"
+  }
 }
