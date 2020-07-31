@@ -1,15 +1,13 @@
-import Icrud from "./interfaces/InterfaceCrud.js"
-import Sequelize from 'sequelize'
-
+const Icrud = require('./interfaces/InterfaceCrud')
+const Sequelize = require('sequelize')
 class Postgres extends Icrud {
   constructor(){ 
     super() 
     this.driver = null
     this._heroes = null
-    this._connect()
   }
   
-  _connect(){
+   async connect(){
     this.driver = new Sequelize(
       'courses',
       'postgres',
@@ -21,7 +19,7 @@ class Postgres extends Icrud {
         operatorsAliases: false,
       }
     )
-      console.log(this.driver.authenticate())
+    await this.defineModel()
   }
   async isConnected(){
     try {
@@ -60,8 +58,25 @@ class Postgres extends Icrud {
     await this._heroes.sync()
   }
 
-  create(item) {
-    
+  async create(item) {
+   const {dataValues}= await this._heroes.create(item)
+   delete dataValues.id
+   return dataValues;
+  }
+
+  async read(item){
+    const result= await this._heroes.findAll({where: item, raw: true})
+    return result
+  }
+
+  async update(id, item){
+    console.log(id)
+    return await this._heroes.update(item, {where: {id: id}})
+  }
+
+  async delete(id){
+    const query = id ? {id} :{}
+    return await this._heroes.destroy({where: query})
   }
 }
-export default Postgres
+module.exports = Postgres

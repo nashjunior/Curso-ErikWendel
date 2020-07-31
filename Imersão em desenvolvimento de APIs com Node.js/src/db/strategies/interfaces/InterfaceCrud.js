@@ -26,4 +26,4 @@ class Icrud {
   }
 }
 
-export default Icrud;
+module.exports=Icrud

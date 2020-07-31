@@ -1,7 +1,7 @@
 
-import ContextStrategy from './strategies/base/ContextStrategy.js';
-import MongoDb from './strategies/mongodb.js';
-import Postgres from './strategies/postgres.js';
+const ContextStrategy = require('./strategies/base/ContextStrategy')
+const MongoDb = require('./strategies/mongodb')
+const Postgres =require('./strategies/postgres')
 
 const contextMongo = new ContextStrategy(new MongoDb())
 contextMongo.create()

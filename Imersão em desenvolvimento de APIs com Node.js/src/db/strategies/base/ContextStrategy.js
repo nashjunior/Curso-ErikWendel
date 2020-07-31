@@ -1,4 +1,4 @@
-import Icrud from './../interfaces/InterfaceCrud.js';
+const Icrud = require('../interfaces/InterfaceCrud')
 
 class ContextStrategy extends Icrud{
 
@@ -15,16 +15,21 @@ class ContextStrategy extends Icrud{
     return this._database.create(item)
   }
 
-  update(item){
+  update(id,item){
     return this._database.update(id, item)
   }
 
-  delete(item){
-    return this._database.create(id)
+  delete(id){
+    return this._database.delete(id)
   }
+
   isConnected(){
     return this._database.isConnected()
   }
+
+  connect() {
+    return this._database.connect()
+  }
 }
 
-export default ContextStrategy;
+module.exports= ContextStrategy;

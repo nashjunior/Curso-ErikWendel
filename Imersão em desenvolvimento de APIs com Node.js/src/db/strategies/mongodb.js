@@ -1,5 +1,4 @@
-import Icrud from "./interfaces/InterfaceCrud.js"
-
+const Icrud = require("./interfaces/InterfaceCrud")
 
 class MongoDb extends Icrud {
   constructor(){ super()}
@@ -9,4 +8,4 @@ class MongoDb extends Icrud {
   }
 }
 
-export default MongoDb
+module.exports = MongoDb
