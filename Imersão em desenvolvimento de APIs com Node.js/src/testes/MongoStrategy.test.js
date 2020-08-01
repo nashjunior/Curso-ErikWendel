@@ -1,9 +1,11 @@
 const ContextStrategy = require('../db/strategies/base/ContextStrategy')
 
 const assert = require('assert');
-const Mongodb = require('../db/strategies/mongodb');
-const MongoDb = require('../db/strategies/mongodb');
-const context = new ContextStrategy(new MongoDb())
+const MongoDb = require('./../db/strategies/mongodb/mongodb');
+const HeroeSchema = require('../db/strategies/mongodb/schema/heroes');
+let context= {};
+
+
 const MOCK_HEROI_CADASTRAR = {
   nome: 'Gaviao Arqueiro',
   poder: 'flexas'}
@@ -21,7 +23,9 @@ let MOCK_HERO_ID = 0
 describe('MongoDB Strategy',function () {
   //this.timeout(Infinity)
   this.beforeAll(async () => {
-    await context.connect()
+    const connection = MongoDb.connect();
+    
+    context = new ContextStrategy( new MongoDb(connection, HeroeSchema))
     const result = await context.create(MOCK_HEROI_ATUALIZAER)
     MOCK_HERO_ID = result._id
   })
@@ -41,9 +45,7 @@ describe('MongoDB Strategy',function () {
   });
 
   it('update', async function() {
-    console.log(MOCK_HERO_ID)
     const itemAutializar = await context.update(MOCK_HERO_ID,{nome:MOCK_HEROI_DEFAULT.nome})
-    console.log(itemAutializar)
     assert.deepEqual(itemAutializar.nModified, 1)
   });
 

@@ -13,6 +13,6 @@
     "mocha": "^8.1.0"
   },
   "scripts": {
-    "test": "mocha src/testes/*.js -w"
+    "test": "mocha src/testes/*.js"
   }
 }
