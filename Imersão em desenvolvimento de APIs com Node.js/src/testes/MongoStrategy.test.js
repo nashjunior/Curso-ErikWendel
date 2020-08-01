@@ -8,14 +8,22 @@ const MOCK_HEROI_CADASTRAR = {
   nome: 'Gaviao Arqueiro',
   poder: 'flexas'}
 
+  const MOCK_HEROI_DEFAULT= {
+    nome: 'Homem Aranha',
+    poder: 'Teia'
+  }
+
   const MOCK_HEROI_ATUALIZAER = {
     nome: 'Batman',
     poder: 'Dinheiro'}
 
+let MOCK_HERO_ID = 0
 describe('MongoDB Strategy',function () {
   //this.timeout(Infinity)
   this.beforeAll(async () => {
     await context.connect()
+    const result = await context.create(MOCK_HEROI_ATUALIZAER)
+    MOCK_HERO_ID = result._id
   })
   it('MongoDb Connection', async function () {
     const result = await context.isConnected()
@@ -27,23 +35,20 @@ describe('MongoDB Strategy',function () {
     assert.deepEqual({nome, poder}, MOCK_HEROI_CADASTRAR)
   });
 
-/*   it('listar', async function() {
-    const [result] = await context.read(MOCK_HEROI_CADASTRAR);
-    delete result.id;
-    assert.deepEqual(result, MOCK_HEROI_CADASTRAR);
+  it('listar', async function() {
+    const [{nome, poder}] = await context.read({nome: MOCK_HEROI_CADASTRAR.nome}, 50, 20);
+    assert.deepEqual({nome, poder}, MOCK_HEROI_CADASTRAR);
   });
 
   it('update', async function() {
-    const [itemAutializar] = await context.read({nome:MOCK_HEROI_ATUALIZAER.nome})
-    const novoItem = { ...MOCK_HEROI_ATUALIZAER, nome: 'Mulher Maravilha' }
-    const [result] = await context.update(itemAutializar.id, novoItem)
-    const [itemAtualiazado] = await context.read({id: itemAutializar.id})
-    assert.deepEqual(itemAtualiazado.nome, novoItem.nome)
+    console.log(MOCK_HERO_ID)
+    const itemAutializar = await context.update(MOCK_HERO_ID,{nome:MOCK_HEROI_DEFAULT.nome})
+    console.log(itemAutializar)
+    assert.deepEqual(itemAutializar.nModified, 1)
   });
 
   it('delete',async function() {
-    const [item] = await context.read({});
-    const result = await context.delete(item.id);
-    assert.deepEqual(result, 1);
-  }); */
+    const result = await context.delete(MOCK_HERO_ID)
+    assert.deepEqual(result.n, 1);
+  });
 });

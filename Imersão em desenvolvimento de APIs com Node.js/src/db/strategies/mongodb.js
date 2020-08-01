@@ -62,8 +62,20 @@ class MongoDb extends Icrud {
     
   }
 
+  read(item, skip=0, limit=10){
+    return this._heroes.find(item).skip(skip).limit(limit)
+  }
+
  create(item) { 
     return this._heroes.create(item)
+  }
+
+  update(id,item){
+    return this._heroes.updateOne({_id: id}, {$set: item})
+  }
+
+  delete(id) {
+    return this._heroes.deleteOne({_id: id})
   }
 }
 
