@@ -1,8 +1,9 @@
 const ContextStrategy = require('../db/strategies/base/ContextStrategy')
 
 const assert = require('assert');
-const Postgres = require('../db/strategies/postgres');
-const context = new ContextStrategy(new Postgres())
+const Mongodb = require('../db/strategies/mongodb');
+const MongoDb = require('../db/strategies/mongodb');
+const context = new ContextStrategy(new MongoDb())
 const MOCK_HEROI_CADASTRAR = {
   nome: 'Gaviao Arqueiro',
   poder: 'flexas'}
@@ -11,23 +12,22 @@ const MOCK_HEROI_CADASTRAR = {
     nome: 'Batman',
     poder: 'Dinheiro'}
 
-describe('Postgres Strategy',function () {
-  this.timeout(Infinity)
-  this.beforeAll(async function (){
+describe('MongoDB Strategy',function () {
+  //this.timeout(Infinity)
+  this.beforeAll(async () => {
     await context.connect()
-    await context.create(MOCK_HEROI_ATUALIZAER)
   })
-  it('Postgres Connection', async function () {
+  it('MongoDb Connection', async function () {
     const result = await context.isConnected()
-    assert.equal(result, true)
+    assert.deepEqual(result, 'Conectado')
   })
 
   it('cadastrar', async function() {
-    const result = await context.create(MOCK_HEROI_CADASTRAR);
-    assert.deepEqual(result, MOCK_HEROI_CADASTRAR)
+    const {nome, poder} = await context.create(MOCK_HEROI_CADASTRAR);
+    assert.deepEqual({nome, poder}, MOCK_HEROI_CADASTRAR)
   });
 
-  it('listar', async function() {
+/*   it('listar', async function() {
     const [result] = await context.read(MOCK_HEROI_CADASTRAR);
     delete result.id;
     assert.deepEqual(result, MOCK_HEROI_CADASTRAR);
@@ -45,5 +45,5 @@ describe('Postgres Strategy',function () {
     const [item] = await context.read({});
     const result = await context.delete(item.id);
     assert.deepEqual(result, 1);
-  });
+  }); */
 });

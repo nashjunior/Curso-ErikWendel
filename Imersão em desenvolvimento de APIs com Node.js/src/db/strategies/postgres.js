@@ -70,7 +70,6 @@ class Postgres extends Icrud {
   }
 
   async update(id, item){
-    console.log(id)
     return await this._heroes.update(item, {where: {id: id}})
   }
 

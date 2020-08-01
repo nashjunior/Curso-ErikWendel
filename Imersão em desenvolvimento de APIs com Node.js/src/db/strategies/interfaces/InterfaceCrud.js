@@ -5,6 +5,10 @@ class NotImplementedException extends Error{
 }
 
 class Icrud {
+  connect(){
+    throw new NotImplementedException()
+  }
+
   read(item){
     throw new NotImplementedException();
   }
